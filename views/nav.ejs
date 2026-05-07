@@ -1,0 +1,58 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-black shadow-sm">
+  <div class="container-fluid">
+    
+    <a class="navbar-brand fw-bold" href="/">BłogTyy</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      
+      <div class="navbar-nav">
+        <a class="nav-link active" href="/">Home</a>
+        
+        <% if (locals.user) { %>
+          <a class="nav-link" href="/posts">Posts</a>
+          <!-- Added the link to the Add Blog form here -->
+          <a class="nav-link" href="/blog/add-new">Add Blog</a> 
+        <% } %>
+
+        <a class="nav-link" href="/activity">Activity</a>
+      </div>
+
+      <div class="navbar-nav ms-auto align-items-center gap-3">
+        
+        <% if (locals.user) { %>
+          
+          <div class="d-flex align-items-center gap-2 text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+              <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+            </svg>
+            <span class="fw-semibold"><%= locals.user.username %></span>
+          </div>
+          <a href="/user/logout" class="btn btn-outline-danger btn-sm px-3 rounded-pill">Logout</a>
+
+        <% } else { %>
+          
+          <div class="d-flex align-items-center gap-2">
+            <a href="/user/signin" class="btn btn-outline-light btn-sm px-3 rounded-pill">Sign In</a>
+            <a href="/user/signup" class="btn btn-light btn-sm px-3 rounded-pill text-dark fw-semibold">Sign Up</a>
+          </div>
+
+        <% } %>
+
+      </div>
+    </div>
+  </div>
+</nav>
+
+<% if (locals.error && locals.error.length > 0) { %>
+  <div class="container mt-3">
+    <div class="alert alert-warning alert-dismissible fade show shadow-sm" role="alert">
+      <%= locals.error %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  </div>
+<% } %>

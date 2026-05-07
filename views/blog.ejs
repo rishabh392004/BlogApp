@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head.ejs') %>
+    <!-- Dynamically set the page title to the blog title -->
+    <title><%= blog.title %> | BłogTyy</title>
+  </head>
+  <body class="bg-light">
+    <%- include('./nav.ejs') %> 
+
+    <div class="container mt-5 mb-5">
+      <div class="row justify-content-center">
+        <!-- Using a narrower column (col-lg-8) makes reading long text much easier on the eyes -->
+        <div class="col-lg-8 col-md-10">
+          
+          <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+            
+            <!-- 1. Cover Image (If uploaded) -->
+            <% if (blog.coverImgUrl) { %>
+              <img src="<%= blog.coverImgUrl %>" class="card-img-top" alt="<%= blog.title %> cover image" style="max-height: 450px; object-fit: cover; width: 100%;">
+            <% } %>
+
+            <div class="card-body p-4 p-md-5">
+              
+              <!-- 2. Blog Title -->
+              <h1 class="card-title fw-bold mb-4 display-5 text-dark" style="line-height: 1.2;">
+                <%= blog.title %>
+              </h1>
+              
+              <!-- 3. Author Meta Data & Date -->
+              <div class="d-flex align-items-center mb-4 pb-4 border-bottom">
+                
+                <!-- Circular Avatar Initial -->
+                <div class="me-3">
+                  <div class="bg-dark text-white rounded-circle d-flex justify-content-center align-items-center fw-bold shadow-sm" style="width: 50px; height: 50px; font-size: 22px;">
+                    <!-- Grabs the first letter of the author's username for the avatar -->
+                    <%= blog.createdBy ? blog.createdBy.username.charAt(0).toUpperCase() : 'U' %>
+                  </div>
+                </div>
+
+                <div>
+                  <h6 class="mb-1 fw-bold text-dark fs-5">
+                    <%= blog.createdBy ? blog.createdBy.username : 'Unknown Author' %>
+                  </h6>
+                  <small class="text-muted">
+                    Published on <%= new Date(blog.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %>
+                  </small>
+                </div>
+              </div>
+
+              <!-- 4. Main Blog Content -->
+              <!-- The "white-space: pre-wrap" CSS is CRITICAL here. It ensures that the paragraphs and line breaks the user typed in the textarea are actually displayed on the screen! -->
+              <div class="card-text text-dark mb-5" style="font-size: 1.15rem; line-height: 1.9; white-space: pre-wrap;"><%= blog.body %></div>
+              
+              <!-- 5. Edit & Delete Buttons (ONLY visible to the actual author of the post) -->
+              <% if (locals.user && blog.createdBy && locals.user._id.toString() === blog.createdBy._id.toString()) { %>
+                <div class="mt-5 pt-4 border-top d-flex gap-3">
+                  
+                  <a href="/blog/edit/<%= blog._id %>" class="btn btn-outline-dark px-4 fw-semibold rounded-pill">
+                    Edit Blog
+                  </a>
+
+                  <form action="/blog/delete/<%= blog._id %>" method="POST" onsubmit="return confirm('Are you sure you want to permanently delete this blog?');">
+                    <button type="submit" class="btn btn-danger px-4 fw-semibold rounded-pill">
+                      Delete Blog
+                    </button>
+                  </form>
+                  
+                </div>
+              <% } %>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <%- include('./partials/script.ejs') %>
+  </body>
+</html>

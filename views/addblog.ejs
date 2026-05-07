@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head.ejs') %>
+    <title>Add New Blog</title>
+  </head>
+  <body>
+    <%- include('./nav.ejs') %> 
+
+    <div class="container mt-5 mb-5">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+          
+          <div class="card shadow-sm">
+            <div class="card-body p-4">
+              <h2 class="card-title mb-4">Create a New Blog Post</h2>
+              
+              <!-- FIXED: Added the closing quotation mark on enctype -->
+              <form action="/blog/add-new" method="POST" enctype="multipart/form-data">
+                
+                <div class="mb-3">
+                  <label for="title" class="form-label fw-bold">Blog Title <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="title" name="title" required placeholder="Enter an engaging title">
+                </div>
+
+                <div class="mb-3">
+                  <label for="body" class="form-label fw-bold">Content <span class="text-danger">*</span></label>
+                  <textarea class="form-control" id="body" name="body" required rows="8" placeholder="Write your blog content here..."></textarea>
+                </div>
+
+                <div class="mb-4">
+                  <label for="coverImage" class="form-label fw-bold">Cover Image</label>
+                  <!-- FIXED: Changed id and name to "coverImage" to match Multer -->
+                  <input type="file" class="form-control" id="coverImage" name="coverImage" accept="image/*">
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 fs-5">Publish Blog</button>
+                
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <%- include('./partials/script.ejs') %>
+  </body>
+</html>
